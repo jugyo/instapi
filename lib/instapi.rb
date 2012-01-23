@@ -38,7 +38,7 @@ class Instapi
   end
 
   def text(url)
-    Nokogiri::HTML(get("/text?u=#{url}")).css('#story').text
+    Nokogiri::HTML(get("/text?u=#{url}")).css('#story').to_s
   end
 
   def get(path, params = {})
