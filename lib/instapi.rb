@@ -8,18 +8,13 @@ class Instapi
 
   def initialize(username, password)
     @username, @password = username, password
-    self
   end
 
   def client
     return @client if @client
     @client = HTTPClient.new
+    @client.post("#{BASE_URL}/user/login", :username => username, :password => password)
     @client
-  end
-
-  def login!
-    client.post("#{BASE_URL}/user/login", :username => username, :password => password)
-    self
   end
 
   def add(url, options = {})
