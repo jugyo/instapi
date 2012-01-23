@@ -42,7 +42,8 @@ class Instapi
   end
 
   def self.text(url)
-    doc = Nokogiri::HTML(get("/text?u=#{url}"))
+    @_client ||= HTTPClient.new
+    doc = Nokogiri::HTML(@_client.get_content("#{BASE_URL}/text?u=#{url}"))
     {
       :title => doc.css('title').first.text,
       :text => doc.css('#story').first.inner_html
