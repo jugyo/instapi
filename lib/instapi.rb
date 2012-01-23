@@ -37,15 +37,15 @@ class Instapi
     get("/delete/#{id}")
   end
 
-  def text(url)
+  def get(path, params = {})
+    client.get_content(BASE_URL + path, params)
+  end
+
+  def self.text(url)
     doc = Nokogiri::HTML(get("/text?u=#{url}"))
     {
       :title => doc.css('title').first.text,
       :text => doc.css('#story').first.inner_html
     }
-  end
-
-  def get(path, params = {})
-    client.get_content(BASE_URL + path, params)
   end
 end
