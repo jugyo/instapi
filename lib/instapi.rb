@@ -2,6 +2,8 @@ require 'httpclient'
 require 'nokogiri'
 
 class Instapi
+  class LoginError < StandardError; end
+
   BASE_URL = "https://www.instapaper.com"
 
   attr_reader :username, :password
@@ -14,8 +16,10 @@ class Instapi
     return @client if @client
     @client = HTTPClient.new
     @client.post("#{BASE_URL}/user/login", :username => username, :password => password)
+    raise LoginError if @client.cookies.empty?
     @client
   end
+  alias_method :login!, :client
 
   def add(url, options = {})
     get('/api/add', {:url => url, :username => username, :password => password}.merge(options))
