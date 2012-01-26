@@ -19,7 +19,11 @@ class Instapi
     raise LoginError if @client.cookies.empty?
     @client
   end
-  alias_method :login!, :client
+
+  def login!
+    client
+    self
+  end
 
   def add(url, options = {})
     get('/api/add', {:url => url, :username => username, :password => password}.merge(options))
